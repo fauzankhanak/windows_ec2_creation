@@ -1,0 +1,8 @@
+---
+
+win_ec2_region: 'us-east-1'
+win_ec2_instance_type: 't2.micro'
+win_ec2_security_group: 'win_ec2'
+win_ec2_Key_name: 'win_ec2'
+win_ec2_image_id: 'image-123'
+win_ec2_action: create

@@ -1,0 +1,42 @@
+---
+
+- name: create security group for win ec2 instances
+  ec2_group:
+    region: '{{win_ec2_region|mandatory}}'
+    name: '{{win_ec2_security_group|mandatory}}'
+    description: '{{win_ec2_security_group_description|default("")}}'
+    state: present
+    rules: '{{win_ec2_security_group_rules|list}}'
+
+- name: create win ec2 Instances
+  ec2:
+    region: '{{win_ec2_region}}'
+    instance_type: '{{win_ec2_instance_type}}'
+    image: '{{win_ec2_image_id}}'
+    instance_tags:
+      Name: dev_server
+      Environment: dev
+      Role: app_server
+      owner: Abcd
+    user_date: '{{lookup("file", "win_ec2_user_data")}}'
+    count_tag:
+      Name: dev_server
+      Environment: dev
+      Role: app_server
+      owner: Abcd
+    exact_count: 3
+    assign_public_ip: yes
+    wait: yes
+  register: win_ec2_instances
+
+- name: Wait for win ec2 instances to listen on winrm https port
+  wait_for:
+    state: started
+    host: "{{item}}"
+    with_items:
+      - "{{tagged_instances[0].public_ip}}"
+      - "{{tagged instances[1].public_ip}}"
+      - "{{tagged_instances[2].public_ip}}"
+    port: "{{win_ec2_winrm_port}}"
+  with_items: "{{win_ec2_instances.results}}"
+  when: '"created" in win_ec2_action and win_ec2_instances is defined'

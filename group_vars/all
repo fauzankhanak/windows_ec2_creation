@@ -1,0 +1,9 @@
+---
+
+win_ec2_region: 'us-east-1'
+win_ec2_instance_type: 't2.micro'
+win_ec2_image:
+win_ec2_Instance_type:
+win_ec2_key_pair:
+win_ec2_security_group:
+volume_size:
