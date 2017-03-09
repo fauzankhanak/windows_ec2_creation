@@ -54,3 +54,20 @@
   with_items: "{{win_ec2_instances.results}}"
   register: win_ec2_passwords
   when: '"created" in win_ec2_action and win_ec2_instances is defined'
+
+- name: Create load-balancer and attach ec2 instances to it
+  ec2_elb_lb:
+    name: dev_server_elb
+    region: "{{win_ec2_region}}"
+    state: present
+    instance_ids: "{{item}}"
+      - "{{tagged_instance[0].id}}"
+      - "{{tagged_instance[1].id}}"
+      - "{{tagged_instance[2].id}}"
+    listeners:
+      - protocol: http
+        load_balancer_port: 80
+        instance_port: 80
+      - protocol: https
+        load_balancer_port: 443
+        instance_port: 80

@@ -1,0 +1,12 @@
+---
+
+rds_db_engine:
+rds_instance_type:
+rds_size:
+rds_username:
+rds_password:
+rds_region:
+rds_subnet:
+rds_security_groups:
+rds_iops:
+rds_profile:

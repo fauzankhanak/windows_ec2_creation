@@ -1,0 +1,17 @@
+---
+
+- name: Creating RDS instance
+  rds:
+   command: create
+   region: "{{ rds_region }}"
+   subnet: "{{ rds_subnet }}"
+   instance_name: dev_rds
+   db_engine: "{{ rds_db_engine }}"
+   instance_type: "{{ rds_instance_type }}"
+   size: "{{ rds_size }}"
+   username: "{{ rds_username }}"
+   password: "{{ rds_password }}"
+   tags:
+    Environment: dev
+    owner: devUser
+    role: devDB
